@@ -1,0 +1,142 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('photo-journal:server');
+var http = require('http');
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '8000');
+app.set('port', port);
+
+/**
+ * Create HTTP server. // Express responsible for handling all requessts 
+ */
+
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
+
+
+
+
+
+
+// MONGOOSE for MongoDB ------------------------------------------
+// Import the mongoose module
+const mongoose = require('mongoose')
+
+// //Set up default mongoose connection
+// await mongoose.connect('mongodb://localhost/my_database', { 
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// });
+
+//Get the default connection
+var db = mongoose.connection;
+
+//Bind connection to error event (to get notification of connection errors)
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+
+// CREATE SCHEMA ================================================
+const Schema = mongoose.Schema;
+const ObjectId = Schema.ObjectId;
+
+const EntrySchema = new Schema({
+  photo: ObjectId,
+  imageURL: {
+    type: String, // store directly? https://stackoverflow.com/questions/29780733/store-an-image-in-mongodb-using-node-js-express-and-mongoose/29780816
+    min: [1],
+    max: [5],
+    required: [true, 'why no photo?']
+  },
+  body: String, 
+  prompt: String,
+  location: String,
+  date: {type: Date, default: Date.now()},
+});
+
+// compile model from schema
+var EntryModel = mongoose.model('EntryModel', EntrySchema)
+
+// create a record (CRUD operations are async--supply a callback to call when operation completes)
+// MDN: The API uses error-first argument convention, so the first argument for the callback will always be an error value (or null). If the API returns some result, this will be provided as the second argument.
+
+// create and save new model instance
+EntryModel.create({prompt: 'hello'}, function(err, new_instance ) {
+  if(err) return handleError(err);
+  // saved! 
+});
