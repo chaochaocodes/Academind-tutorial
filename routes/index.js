@@ -17,22 +17,22 @@ const userDataSchema = new Schema({
 
 var UserData = mongoose.model('UserData', userDataSchema);
 
-// const entrySchema = new Schema({
-//   photo: ObjectId,
-//   imageURL: {
-//     type: String, // store directly? https://stackoverflow.com/questions/29780733/store-an-image-in-mongodb-using-node-js-express-and-mongoose/29780816
-//     min: [1],
-//     max: [5],
-//     required: [true, 'why no photo?']
-//   },
-//   body: {type: String, required: true}, 
-//   prompt: String,
-//   location: String,
-//   date: {type: Date, default: Date.now()},
-// }, {collection: 'entry-data'}); 
-// // collection ^ will override below 'EntryData' in plural form 
-// // compile model from schema
-// var EntryData = mongoose.model('EntryData', entrySchema)
+const entrySchema = new Schema({
+  photo: ObjectId,
+  imageURL: {
+    type: String, // store directly? https://stackoverflow.com/questions/29780733/store-an-image-in-mongodb-using-node-js-express-and-mongoose/29780816
+    min: [1],
+    max: [5],
+    required: [true, 'why no photo?']
+  },
+  body: {type: String, required: true}, 
+  prompt: String,
+  location: String,
+  date: {type: Date, default: Date.now()},
+}, {collection: 'entry-data'}); 
+// collection ^ will override below 'EntryData' in plural form 
+// compile model from schema
+var EntryData = mongoose.model('EntryData', entrySchema)
 
 // // create a record (CRUD operations are async--supply a callback to call when operation completes)
 // // MDN: The API uses error-first argument convention, so the first argument for the callback will always be an error value (or null). If the API returns some result, this will be provided as the second argument.

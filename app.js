@@ -7,7 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 // creates the express app as a function using the imported module, then used to setup the view engine
-var app = express();
+var app = express(); 
 
 // view engine setup // views stored in views folder
 app.set('views', path.join(__dirname, 'views'));

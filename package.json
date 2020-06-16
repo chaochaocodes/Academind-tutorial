@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "nodemon app-devEd.js",
     "devstart": "nodemon ./bin/www",
     "serverstart": "DEBUG=express-photo-journal:* npm run devstart"
   },
