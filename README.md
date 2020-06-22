@@ -1,4 +1,3 @@
-# Node.js + Express Setup:
+# Node.js + Express Setup
 
-Academind Tutorial
-https://www.youtube.com/watch?v=gqcBptGjHTo
+[Academind Tutorial](https://www.youtube.com/watch?v=gqcBptGjHTo)
